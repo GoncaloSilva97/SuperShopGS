@@ -31,7 +31,7 @@ namespace SuperShopGS
             });
 
             services.AddTransient<SeedDb>();
-
+            services.AddScoped<IRepository, Repository>();
 
 
 
