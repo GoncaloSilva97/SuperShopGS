@@ -8,7 +8,7 @@ namespace SuperShopGS.Data
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
-
+        public IQueryable GetAllWithUsers();
 
     }
 }
