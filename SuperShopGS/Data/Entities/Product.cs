@@ -59,7 +59,7 @@ namespace SuperShopGS.Data.Entities
                     return null;
                 }
 
-                return $"https://localhost:44374{ImageUrl.Substring(1)}";
+                return $"https://supershopgs.azurewebsites.net{ImageUrl.Substring(1)}";
             }
         }
 
