@@ -24,7 +24,7 @@
 
 
 
-            <input type="hidden" asp-for="ImageId" />
+            <input type="hidden" asp-for="ImageUrl" />
 
 
 
@@ -114,9 +114,10 @@
 
 
     <div class="col-md-4">
-        
-             <img src="@Url.Content(Model.ImageFullPath)" alt="Image" style="width:300px;height:450px;max-width:100%;height:auto">
- 
+         @if (!string.IsNullOrEmpty(Model.ImageUrl))
+         {
+             <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:300px;height:450px;max-width:100%;height:auto">
+         }
     </div>
 
 

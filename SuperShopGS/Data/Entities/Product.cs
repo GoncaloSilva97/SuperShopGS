@@ -21,8 +21,7 @@ namespace SuperShopGS.Data.Entities
         public decimal Price { get; set; }
 
         [Display(Name = "Image")]
-        public Guid ImageId { get; set; }//////////////////////////////////////////////////////////////////////
-       
+        public string ImageUrl { get; set; }
 
         [Display(Name = "Last Purchase")]
         public DateTime? LastPurchase { get; set; }
@@ -51,12 +50,6 @@ namespace SuperShopGS.Data.Entities
 
 
         ////////////////////////////////////////////////////////////////////////////
-<<<<<<< HEAD
-        public string ImageFullPath => ImageId == Guid.Empty
-            ? $"https://supershopgs.azurewebsites.net/image/noimage.png"
-            : $"https://supershopgs.blob.core.windows.net/products/{ImageId}";
-        
-=======
         public string ImageFullPath
         {
             get
@@ -66,10 +59,9 @@ namespace SuperShopGS.Data.Entities
                     return null;
                 }
 
-                return $"https://supershopgs.azurewebsites.net{ImageUrl.Substring(1)}";
+                return $"https://localhost:44374{ImageUrl.Substring(1)}";
             }
         }
->>>>>>> ff399bacf84adf4f6dccc770e92193b0295d32ae
 
         /////////////////////////////////////////////////////////////////////////
     }

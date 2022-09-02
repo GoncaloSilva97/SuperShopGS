@@ -17,7 +17,7 @@ namespace SuperShopGS.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly IUserHelper _userHelper;
-        private readonly IBlobHelper _blobHelper;//////////////////////////////////////////////////////////////////////////
+        private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
 
         
@@ -25,12 +25,12 @@ namespace SuperShopGS.Controllers
         public ProductsController(
             IProductRepository productRepository,
             IUserHelper userHelper,
-            IBlobHelper blobHelper,
-            IConverterHelper converterHelper)///////////////////////////////////////////////////////////////
+            IImageHelper imageHelper,
+            IConverterHelper converterHelper)
         {
             _productRepository = productRepository;
             _userHelper = userHelper;
-            _blobHelper = blobHelper;///////////////////////////////////////////////////////////////
+            _imageHelper = imageHelper;
             _converterHelper = converterHelper;
         }
 
@@ -80,18 +80,18 @@ namespace SuperShopGS.Controllers
 
             if (ModelState.IsValid)
             {
-                Guid imageId = Guid.Empty; ////////////////////////////////////////////////
+                var path = string.Empty;
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-
-                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");////////////////////////////////////////////////
+                    
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "products");
                 }
 
-                var product = _converterHelper.ToProduct(model, imageId, true);////////////////////////////////////////////////
+                var product = _converterHelper.ToProduct(model, path, true);
 
 
 
-                //TODO: Modificar para o user que esta logado
+               //TODO: Modificar para o user que esta logado
                 product.User = await _userHelper.GetUserByEmailAsync("dalton.fury120@gmail.com");
 
 
@@ -137,12 +137,12 @@ namespace SuperShopGS.Controllers
             {
                 try
                 {
-                    Guid imageId = model.ImageId;//////////////////////////////////////////////////////////////
+                    var path = model.ImageUrl;
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");//////////////////////////////////////////////////////////
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "products");
                     }
-                    var product = _converterHelper.ToProduct(model, imageId, false);//////////////////////////////////////////////////////////
+                    var product = _converterHelper.ToProduct(model, path, false);
 
 
                     //TODO: Modificar para o user que esta logado
