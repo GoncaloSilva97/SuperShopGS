@@ -98,8 +98,8 @@ namespace SuperShopGS.Controllers
 
 
 
-                //TODO: Modificar para o user que esta logado
-                product.User = await _userHelper.GetUserByEmailAsync("dalton.fury120@gmail.com");
+              
+                product.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
 
                 await _productRepository.CreateAsync(product);
@@ -154,7 +154,7 @@ namespace SuperShopGS.Controllers
 
 
                     //TODO: Modificar para o user que esta logado
-                    product.User = await _userHelper.GetUserByEmailAsync("dalton.fury120@gmail.com");
+                    product.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                     await _productRepository.UpdateAsync(product);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -183,6 +183,7 @@ namespace SuperShopGS.Controllers
 
 
         // GET: Products/Delete/5
+        [Authorize] 
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
