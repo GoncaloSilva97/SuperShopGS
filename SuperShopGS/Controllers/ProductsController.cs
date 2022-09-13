@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,11 @@ using SuperShopGS.Models;
 
 namespace SuperShopGS.Controllers
 {
+    //[Authorize]
+
+
+
+
     public class ProductsController : Controller
     {
         private readonly IProductRepository _productRepository;
@@ -65,6 +71,7 @@ namespace SuperShopGS.Controllers
         }
 
         // GET: Products/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -108,6 +115,7 @@ namespace SuperShopGS.Controllers
 
 
         // GET: Products/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

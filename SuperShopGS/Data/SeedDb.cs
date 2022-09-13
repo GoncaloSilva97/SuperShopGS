@@ -11,7 +11,7 @@ namespace SuperShopGS.Data
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
-      
+
         private Random _random;
         public SeedDb(DataContext context, IUserHelper userHelper)
         {
@@ -70,5 +70,8 @@ namespace SuperShopGS.Data
                 User = user
             });
         }
+
     }
+
+    
 }

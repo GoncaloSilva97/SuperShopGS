@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SuperShopGS.Data.Entities;
+using SuperShopGS.Models;
 using System.Threading.Tasks;
 
 namespace SuperShopGS.Helperes
@@ -10,5 +11,10 @@ namespace SuperShopGS.Helperes
 
 
         Task<IdentityResult> AddUserAsync(User user, string password);
+
+
+        Task<SignInResult> LoginAsync(LoginViewModel model);
+
+        Task LogoutAsync();
     }
 }
