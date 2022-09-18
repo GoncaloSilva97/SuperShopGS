@@ -71,7 +71,7 @@ namespace SuperShopGS.Controllers
         }
 
         // GET: Products/Create
-        [Authorize]
+        [Authorize(Roles = "Admin")] //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
         public IActionResult Create()
         {
             return View();
@@ -87,14 +87,14 @@ namespace SuperShopGS.Controllers
 
             if (ModelState.IsValid)
             {
-                Guid imageId = Guid.Empty; ////////////////////////////////////////////////
+                Guid imageId = Guid.Empty;
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
 
-                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");////////////////////////////////////////////////
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");
                 }
 
-                var product = _converterHelper.ToProduct(model, imageId, true);////////////////////////////////////////////////
+                var product = _converterHelper.ToProduct(model, imageId, true);
 
 
 
