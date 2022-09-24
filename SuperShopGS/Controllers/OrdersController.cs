@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SuperShopGS.Data;
+using SuperShopGS.Models;
 using System.Threading.Tasks;
 
 namespace SuperShopGS.Controllers
@@ -9,10 +10,12 @@ namespace SuperShopGS.Controllers
     public class OrdersController : Controller
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _productRepository;
 
-        public OrdersController(IOrderRepository OrderRepository)
+        public OrdersController(IOrderRepository orderRepository, IProductRepository productRepository)
         {
-            _orderRepository = OrderRepository;
+            _orderRepository = orderRepository;
+            _productRepository = productRepository;
         }
 
 
@@ -20,6 +23,27 @@ namespace SuperShopGS.Controllers
         public async Task<IActionResult> Index()
         {
             var model = await _orderRepository.GetOrderAsync(this.User.Identity.Name);
+            return View(model);
+        }
+
+
+
+        public async Task<IActionResult> Create()
+        {
+            var model = await _orderRepository.GetDetailTempsAsync(this.User.Identity.Name);
+            return View(model);
+        }
+
+
+
+
+        public IActionResult AddProduct()
+        {
+            var model = new AddItemViewModel
+            {
+                Quantity = 1,
+                Product = _productRepository.GetComboProducts()
+            };
             return View(model);
         }
     }
