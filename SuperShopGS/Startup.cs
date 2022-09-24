@@ -56,7 +56,7 @@ namespace SuperShopGS
 
             services.AddScoped<IProductRepository, ProductRepository>();
 
-
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
 
 

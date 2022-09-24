@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SuperShopGS.Data.Entities;
 using SuperShopGS.Helperes;
 using System;
@@ -22,40 +23,10 @@ namespace SuperShopGS.Data
 
         public async Task SeedAsync()
         {
-            await _context.Database.EnsureCreatedAsync();
-
-
-
-
-
-
-
-
-
-
-
+            await _context.Database.MigrateAsync();
 
             await _userHelper.CheckRoleAsync("Admin");
             await _userHelper.CheckRoleAsync("Customer");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             var user = await _userHelper.GetUserByEmailAsync("dalton.fury120@gmail.com");
             if (user == null)
@@ -75,13 +46,6 @@ namespace SuperShopGS.Data
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
 
-
-
-
-
-
-
-
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
             }
 
@@ -90,13 +54,6 @@ namespace SuperShopGS.Data
             {
                 await _userHelper.AddUserToRoleAsync(user, "Admin");
             }
-
-
-
-
-
-
-
 
 
             if (!_context.Products.Any())
