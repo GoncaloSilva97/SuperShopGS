@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SuperShop.Data;
 using SuperShopGS.Data;
 using SuperShopGS.Data.Entities;
 using SuperShopGS.Helperes;
@@ -58,7 +59,7 @@ namespace SuperShopGS
 
             services.AddScoped<IOrderRepository, OrderRepository>();
 
-
+            services.AddScoped<ICountryRepository, CountryRepository>();
 
 
             services.ConfigureApplicationCookie(options =>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using SuperShopGS.Data.Entities;
 using SuperShopGS.Helperes;
 using SuperShopGS.Models;
@@ -8,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace SuperShopGS.Data
 {
-    public class OrderRepository : GenericRepository <Order>, IOrderRepository
+    public class OrderRepository : GenericRepository<Order>, IOrderRepository
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
 
-        public OrderRepository(DataContext context, IUserHelper userHelper ) : base(context)
+        public OrderRepository(DataContext context, IUserHelper userHelper) : base(context)
         {
             _context = context;
             _userHelper = userHelper;
@@ -26,6 +27,7 @@ namespace SuperShopGS.Data
             {
                 return;
             }
+
             var product = await _context.Products.FindAsync(model.ProductId);
             if (product == null)
             {
@@ -43,7 +45,7 @@ namespace SuperShopGS.Data
                     Price = product.Price,
                     Product = product,
                     Quantity = model.Quantity,
-                    User = user
+                    User = user,
                 };
 
                 _context.OrderDetailsTemp.Add(orderDetailTemp);
@@ -53,7 +55,8 @@ namespace SuperShopGS.Data
                 orderDetailTemp.Quantity += model.Quantity;
                 _context.OrderDetailsTemp.Update(orderDetailTemp);
             }
-            await _context.SaveChangesAsync();  
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> ConfirmOrderAsync(string userName)
@@ -64,17 +67,17 @@ namespace SuperShopGS.Data
                 return false;
             }
 
-            var orderTemps = await _context.OrderDetailsTemp
+            var orderTmps = await _context.OrderDetailsTemp
                 .Include(o => o.Product)
                 .Where(o => o.User == user)
                 .ToListAsync();
 
-            if (orderTemps == null || orderTemps.Count == 0)
+            if (orderTmps == null || orderTmps.Count == 0)
             {
                 return false;
             }
 
-            var details = orderTemps.Select(o => new OrderDetail
+            var details = orderTmps.Select(o => new OrderDetail
             {
                 Price = o.Price,
                 Product = o.Product,
@@ -89,8 +92,7 @@ namespace SuperShopGS.Data
             };
 
             await CreateAsync(order);
-
-            _context.OrderDetailsTemp.RemoveRange(orderTemps);
+            _context.OrderDetailsTemp.RemoveRange(orderTmps);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -104,11 +106,25 @@ namespace SuperShopGS.Data
             }
 
             _context.OrderDetailsTemp.Remove(orderDetailTemp);
-            await _context.SaveChangesAsync();  
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeliverOrder(DeliveryViewModel model)
+        {
+            var order = await _context.Orders.FindAsync(model.Id);
+            if (order == null)
+            {
+                return;
+            }
+
+            order.DeliveryDate = model.DeliveryDate;
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IQueryable<OrderDetailTemp>> GetDetailTempsAsync(string userName)
         {
+
             var user = await _userHelper.GetUserByEmailAsync(userName);
             if (user == null)
             {
@@ -134,7 +150,7 @@ namespace SuperShopGS.Data
                 return _context.Orders
                     .Include(o => o.User)
                     .Include(o => o.Items)
-                    .ThenInclude(i => i.Product)
+                    .ThenInclude(p => p.Product)
                     .OrderByDescending(o => o.OrderDate);
             }
 
@@ -143,6 +159,11 @@ namespace SuperShopGS.Data
                 .ThenInclude(p => p.Product)
                 .Where(o => o.User == user)
                 .OrderByDescending(o => o.OrderDate);
+        }
+
+        public async Task<Order> GetOrderAsync(int id)
+        {
+            return await _context.Orders.FindAsync(id);
         }
 
         public async Task ModifyOrderDetailTempQuantityAsync(int id, double quantity)

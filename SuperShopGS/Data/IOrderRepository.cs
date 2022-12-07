@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 
 namespace SuperShopGS.Data
 {
-    public interface IOrderRepository : IGenericRepository <Order>
+    public interface IOrderRepository : IGenericRepository<Order>
     {
         Task<IQueryable<Order>> GetOrderAsync(string userName);
+
 
         Task<IQueryable<OrderDetailTemp>> GetDetailTempsAsync(string userName);
 
 
-
-
         Task AddItemToOrderAsync(AddItemViewModel model, string userName);
+
 
         Task ModifyOrderDetailTempQuantityAsync(int id, double quantity);
 
@@ -23,5 +23,11 @@ namespace SuperShopGS.Data
 
 
         Task<bool> ConfirmOrderAsync(string userName);
+
+
+        Task DeliverOrder(DeliveryViewModel model);
+
+
+        Task<Order> GetOrderAsync(int id);
     }
 }
