@@ -127,27 +127,27 @@ namespace SuperShop.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(Country country)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            await _countryRepository.CreateAsync(country);
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        catch (Exception)
-        //        {
-        //            _flashMessage.Danger("This country already exist!");
-        //        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Country country)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _countryRepository.CreateAsync(country);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception)
+                {
+                    //_flashMessage.Danger("This country already exist!");
+                }
 
-        //        return View(country);
-        //    }
+                return View(country);
+            }
 
-        //    return View(country);
-        //}
+            return View(country);
+        }
 
         public async Task<IActionResult> Edit(int? id)
         {
