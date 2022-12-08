@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SuperShop.Data;
+using SuperShop.Helpers;
 using SuperShopGS.Data;
 using SuperShopGS.Data.Entities;
 using SuperShopGS.Helperes;
@@ -20,18 +21,18 @@ namespace SuperShopGS.Controllers
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
-        //private readonly IMailHelper _mailHelper;
+        private readonly IMailHelper _mailHelper;
         private readonly IConfiguration _configuration;
         private readonly ICountryRepository _countryRepository;
 
         public AccountController(
             IUserHelper userHelper,
-            //IMailHelper mailHelper,
+            IMailHelper mailHelper,
             IConfiguration configuration,
             ICountryRepository countryRepository)
         {
             _userHelper = userHelper;
-            //_mailHelper = mailHelper;
+            _mailHelper = mailHelper;
             _configuration = configuration;
             _countryRepository = countryRepository;
         }
@@ -118,23 +119,23 @@ namespace SuperShopGS.Controllers
                         return View(model);
                     }
 
-                    //string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                    //string tokenLink = Url.Action("ConfirmEmail", "Account", new
-                    //{
-                    //    userid = user.Id,
-                    //    token = myToken
-                    //}, protocol: HttpContext.Request.Scheme);
+                    string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                    string tokenLink = Url.Action("ConfirmEmail", "Account", new
+                    {
+                        userid = user.Id,
+                        token = myToken
+                    }, protocol: HttpContext.Request.Scheme);
 
-                    //Response response = _mailHelper.SendEmail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                    //    $"To allow the user, " +
-                    //    $"plase click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+                    Response response = _mailHelper.SendEmail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                        $"To allow the user, " +
+                        $"plase click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
 
 
-                    //if (response.IsSuccess)
-                    //{
-                    //    ViewBag.Message = "The instructions to allow you user has been sent to email";
-                    //    return View(model);
-                    //}
+                    if (response.IsSuccess)
+                    {
+                        ViewBag.Message = "The instructions to allow you user has been sent to email";
+                        return View(model);
+                    }
 
                     ModelState.AddModelError(string.Empty, "The user couldn't be logged.");
 
@@ -291,17 +292,17 @@ namespace SuperShopGS.Controllers
                     return NotFound();
                 }
 
-                //var user = await _userHelper.GetUserByIdAsync(userId);
-                //if (user == null)
-                //{
-                //    return NotFound();
-                //}
+                var user = await _userHelper.GetUserByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
-                //var result = await _userHelper.ConfirmEmailAsync(user, token);
-                //if (!result.Succeeded)
-                //{
-
-                //}
+                var result = await _userHelper.ConfirmEmailAsync(user, token);
+                if (!result.Succeeded)
+                {
+                    
+                }
 
                 return View();
 
@@ -315,71 +316,71 @@ namespace SuperShopGS.Controllers
 
 
 
-            //[HttpPost]
-            //public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
-            //{
-            //    if (this.ModelState.IsValid)
-            //    {
-            //        var user = await _userHelper.GetUserByEmailAsync(model.Email);
-            //        if (user == null)
-            //        {
-            //            ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
-            //            return View(model);
-            //        }
+        //[HttpPost]
+        //public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        //{
+        //    if (this.ModelState.IsValid)
+        //    {
+        //        var user = await _userHelper.GetUserByEmailAsync(model.Email);
+        //        if (user == null)
+        //        {
+        //            ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
+        //            return View(model);
+        //        }
 
-            //        var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+        //        var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
 
-            //        var link = this.Url.Action(
-            //            "ResetPassword",
-            //            "Account",
-            //            new { token = myToken }, protocol: HttpContext.Request.Scheme);
+        //        var link = this.Url.Action(
+        //            "ResetPassword",
+        //            "Account",
+        //            new { token = myToken }, protocol: HttpContext.Request.Scheme);
 
-            //        Response response = _mailHelper.SendEmail(model.Email, "Shop Password Reset", $"<h1>Shop Password Reset</h1>" +
-            //        $"To reset the password click in this link:</br></br>" +
-            //        $"<a href = \"{link}\">Reset Password</a>");
+        //        Response response = _mailHelper.SendEmail(model.Email, "Shop Password Reset", $"<h1>Shop Password Reset</h1>" +
+        //        $"To reset the password click in this link:</br></br>" +
+        //        $"<a href = \"{link}\">Reset Password</a>");
 
-            //        if (response.IsSuccess)
-            //        {
-            //            this.ViewBag.Message = "The instructions to recover your password has been sent to email.";
-            //        }
+        //        if (response.IsSuccess)
+        //        {
+        //            this.ViewBag.Message = "The instructions to recover your password has been sent to email.";
+        //        }
 
-            //        return this.View();
+        //        return this.View();
 
-            //    }
+        //    }
 
-            //    return this.View(model);
-            //}
+        //    return this.View(model);
+        //}
 
-            public IActionResult ResetPassword(string token)
-            {
-                 return View();
-            }
-
-
-            //[HttpPost]
-            //public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
-            //{
-            //    var user = await _userHelper.GetUserByEmailAsync(model.UserName);
-            //    if (user != null)
-            //    {
-            //        var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
-            //        if (result.Succeeded)
-            //        {
-            //            this.ViewBag.Message = "Password reset successful.";
-            //            return View();
-            //        }
-
-            //        this.ViewBag.Message = "Error while resetting the password.";
-            //        return View(model);
-            //    }
-
-            //    this.ViewBag.Message = "User not found.";
-            //    return View(model);
-            //}
+        //public IActionResult ResetPassword(string token)
+        //    {
+        //         return View();
+        //    }
 
 
+        //[HttpPost]
+        //public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        //{
+        //    var user = await _userHelper.GetUserByEmailAsync(model.UserName);
+        //    if (user != null)
+        //    {
+        //        var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
+        //        if (result.Succeeded)
+        //        {
+        //            this.ViewBag.Message = "Password reset successful.";
+        //            return View();
+        //        }
 
-            public IActionResult NotAuthorized()
+        //        this.ViewBag.Message = "Error while resetting the password.";
+        //        return View(model);
+        //    }
+
+        //    this.ViewBag.Message = "User not found.";
+        //    return View(model);
+        //}
+
+
+
+        public IActionResult NotAuthorized()
         {
             return View();
         }

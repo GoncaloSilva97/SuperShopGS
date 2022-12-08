@@ -46,6 +46,8 @@ namespace SuperShopGS.Helperes
 
         Task<IdentityResult> ConfirmEmailAsync(User user, string token);
 
+
+
         Task<User> GetUserByIdAsync(string userId);
 
         Task<string> GeneratePasswordResetTokenAsync(User user);
