@@ -27,6 +27,43 @@
     <Folder Include="wwwroot\image\products\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Views\Account\ChangePassword.cshtml" />
+    <None Include="Views\Account\ChangeUser.cshtml" />
+    <None Include="Views\Account\ConfirmEmail.cshtml" />
+    <None Include="Views\Account\Login.cshtml" />
+    <None Include="Views\Account\NotAuthorized.cshtml" />
+    <None Include="Views\Account\RecoverPassword.cshtml" />
+    <None Include="Views\Account\Register.cshtml" />
+    <None Include="Views\Account\ResetPassword.cshtml" />
+    <None Include="Views\Countries\AddCity.cshtml" />
+    <None Include="Views\Countries\Create.cshtml" />
+    <None Include="Views\Countries\Details.cshtml" />
+    <None Include="Views\Countries\Edit.cshtml" />
+    <None Include="Views\Countries\EditCity.cshtml" />
+    <None Include="Views\Countries\Index.cshtml" />
+    <None Include="Views\Errors\Error404.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Orders\AddProduct.cshtml" />
+    <None Include="Views\Orders\Create.cshtml" />
+    <None Include="Views\Orders\Deliver.cshtml" />
+    <None Include="Views\Orders\Index.cshtml" />
+    <None Include="Views\Products\Create.cshtml" />
+    <None Include="Views\Products\Delete.cshtml" />
+    <None Include="Views\Products\Details.cshtml" />
+    <None Include="Views\Products\Edit.cshtml" />
+    <None Include="Views\Products\Index.cshtml" />
+    <None Include="Views\Products\ProductNotFound.cshtml" />
+    <None Include="Views\Products\_Products.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_ValidationCurrencyPartial.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
