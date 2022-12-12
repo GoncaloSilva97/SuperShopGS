@@ -1,7 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-
+using SuperShop.Prism.Helpers;
 using SuperShop.Prism.ItemViewModels;
 using SuperShop.Prism.Models;
 using SuperShop.Prism.Services;
@@ -11,7 +11,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-
 namespace SuperShop.Prism.ViewModels
 {
     public class ProductsPageViewModel : ViewModelBase
@@ -23,20 +22,17 @@ namespace SuperShop.Prism.ViewModels
         private string _search;
         private List<ProductResponse> _myProducts;
         private DelegateCommand _searchCommand;
-
         public ProductsPageViewModel(
             INavigationService navigationService,
             IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
             _apiService = apiService;
-            Title = "Products Page";
+            Title = Languages.Products;
             LoadProductsAsync();
         }
 
-
         public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(ShowProducts));
-
         public string Search
         {
             get => _search;
@@ -46,20 +42,16 @@ namespace SuperShop.Prism.ViewModels
                 ShowProducts();
             }
         }
-
         public bool IsRunning
         {
             get => _isRunning;
             set => SetProperty(ref _isRunning, value);
         }
-
         public ObservableCollection<ProductItemViewModel> Products
         {
             get => _products;
             set => SetProperty(ref _products, value);
         }
-
-
         private async void LoadProductsAsync()
         {
 
@@ -67,30 +59,32 @@ namespace SuperShop.Prism.ViewModels
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await App.Current.MainPage.DisplayAlert(
-                     "Error",
-                     "Check internet connection", "Accept");
+                    await App.Current.MainPage.DisplayAlert( 
+                       Languages.Error,
+                       Languages.ConnectionError, Languages.Accept);
                 });
-                return;
+                    return;
             }
 
             IsRunning = true;
-
             string url = App.Current.Resources["UrlAPI"].ToString();
-
             Response response = await _apiService.GetListAsync<ProductResponse>(url, "/api", "/Products");
-
             IsRunning = false;
 
             if (!response.IsSuccess)
             {
-                await App.Current.MainPage.DisplayAlert("Error", response.Message, "Accept");
+               
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    Languages.Accept);
                 return;
             }
 
-            _myProducts = (List<ProductResponse>)response.Result;
+            _myProducts = (List<ProductResponse>) response.Result;
             ShowProducts();
         }
+
 
         private void ShowProducts()
         {
@@ -132,5 +126,6 @@ namespace SuperShop.Prism.ViewModels
                     .ToList());
             }
         }
+
     }
 }

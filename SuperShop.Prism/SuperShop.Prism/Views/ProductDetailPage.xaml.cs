@@ -2,9 +2,9 @@
 
 namespace SuperShop.Prism.Views
 {
-    public partial class ProductDetailPageViewModel : ContentPage
+    public partial class ProductDetailPage : ContentPage
     {
-        public ProductDetailPageViewModel()
+        public ProductDetailPage()
         {
             InitializeComponent();
         }
