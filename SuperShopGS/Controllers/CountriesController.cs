@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SuperShop.Data;
+using SuperShopGS.Data;
 using SuperShopGS.Data.Entities;
 using SuperShopGS.Models;
-//using VereyonGS.Web;
+using Vereyon.Web;
 
 namespace SuperShop.Controllers
 {
@@ -13,14 +13,14 @@ namespace SuperShop.Controllers
     public class CountriesController : Controller
     {
         private readonly ICountryRepository _countryRepository;
-        //private readonly IFlashMessage _flashMessage;
+        private readonly IFlashMessage _flashMessage;
 
         public CountriesController(
-            ICountryRepository countryRepository)/*,*/
-            //IFlashMessage flashMessage)
+            ICountryRepository countryRepository,
+            IFlashMessage flashMessage)
         {
             _countryRepository = countryRepository;
-            //_flashMessage = flashMessage;
+            _flashMessage = flashMessage;
         }
 
         public async Task<IActionResult> DeleteCity(int? id)
@@ -140,7 +140,7 @@ namespace SuperShop.Controllers
                 }
                 catch (Exception)
                 {
-                    //_flashMessage.Danger("This country already exist!");
+                    _flashMessage.Danger("This country already exist!");
                 }
 
                 return View(country);
@@ -177,21 +177,21 @@ namespace SuperShop.Controllers
             return View(country);
         }
 
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var country = await _countryRepository.GetByIdAsync(id.Value);
-        //    if (country == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var country = await _countryRepository.GetByIdAsync(id.Value);
+            if (country == null)
+            {
+                return NotFound();
+            }
 
-        //    await _countryRepository.DeleteAsync(country);
-        //    return RedirectToAction(nameof(Index));
-        //}
+            await _countryRepository.DeletAsync(country);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

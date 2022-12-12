@@ -1,8 +1,9 @@
 ﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
-using SuperShop.Helpers;
+using SuperShopGS.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,10 @@ namespace SuperShopGS.Helperes
             {
                 using (var client = new SmtpClient())
                 {
-                    client.Connect(smtp, int.Parse(port), false);
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+
+                    client.Connect(smtp, int.Parse(port), SecureSocketOptions.Auto);
                     client.Authenticate(from, password);
                     client.Send(message);
                     client.Disconnect(true);

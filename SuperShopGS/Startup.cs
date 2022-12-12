@@ -1,22 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using SuperShop.Data;
-using SuperShop.Helpers;
 using SuperShopGS.Data;
 using SuperShopGS.Data.Entities;
 using SuperShopGS.Helperes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Vereyon.Web;
 
 namespace SuperShopGS
 {
@@ -47,6 +41,7 @@ namespace SuperShopGS
               .AddDefaultTokenProviders()
               .AddEntityFrameworkStores<DataContext>();
 
+
             services.AddAuthentication()
                 .AddCookie()
                 .AddJwtBearer(cfg =>
@@ -65,34 +60,24 @@ namespace SuperShopGS
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+
+            services.AddFlashMessage();
+
             services.AddTransient<SeedDb>();
-
             services.AddScoped<IUserHelper, UserHelper>();
-
-            services.AddScoped<IBlobHelper, BlobHelper> ();/////////////////////////////////////////////////////////
-
+            services.AddScoped<IBlobHelper, BlobHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
-
             services.AddScoped<IMailHelper, MailHelper>();
 
             services.AddScoped<IProductRepository, ProductRepository>();
-
             services.AddScoped<IOrderRepository, OrderRepository>();
-
             services.AddScoped<ICountryRepository, CountryRepository>();
-
 
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/NotAuthorized";
                 options.AccessDeniedPath = "/Account/NotAuthorized";
             });
-
-
-
-
-
-
 
             services.AddControllersWithViews();
         }
@@ -111,19 +96,7 @@ namespace SuperShopGS
                 app.UseHsts();
             }
 
-
-
-
             app.UseStatusCodePagesWithReExecute("/error/{0}");
-
-
-
-
-
-
-
-
-
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -131,7 +104,6 @@ namespace SuperShopGS
             app.UseRouting();
 
             app.UseAuthentication();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

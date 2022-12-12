@@ -6,7 +6,7 @@ using SuperShopGS.Helperes;
 using SuperShopGS.Models;
 
 
-namespace SuperShop.Helpers
+namespace SuperShopGS.Helperes
 {
     public class UserHelper : IUserHelper
     {

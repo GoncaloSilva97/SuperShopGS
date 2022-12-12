@@ -1,4 +1,4 @@
-﻿namespace SuperShop.Helpers
+﻿namespace SuperShopGS.Helpers
 {
     public class Response
     {

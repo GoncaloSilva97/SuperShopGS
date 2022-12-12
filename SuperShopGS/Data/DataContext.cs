@@ -29,9 +29,9 @@ namespace SuperShopGS.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Country>()
-            //    .HasIndex(c => c.Name)
-            //    .IsUnique();
+            modelBuilder.Entity<Country>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
 
 
             modelBuilder.Entity<Product>()

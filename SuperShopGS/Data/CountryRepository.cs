@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SuperShop.Data
+namespace SuperShopGS.Data
 {
     public class CountryRepository : GenericRepository<Country>, ICountryRepository
     {
