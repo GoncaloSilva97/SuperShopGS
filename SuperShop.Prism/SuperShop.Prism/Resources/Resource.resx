@@ -147,4 +147,28 @@
   <data name="Products" xml:space="preserve">
     <value>Products</value>
   </data>
+  <data name="IsAvailable" xml:space="preserve">
+    <value>Is Available</value>
+  </data>
+  <data name="Stock" xml:space="preserve">
+    <value>Stock</value>
+  </data>
+  <data name="LastPurchase" xml:space="preserve">
+    <value>Last Purchase</value>
+  </data>
+  <data name="LastSale" xml:space="preserve">
+    <value>Last Sale</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="ModifyUser" xml:space="preserve">
+    <value>Modify User</value>
+  </data>
+  <data name="ShowPurchaseHistory" xml:space="preserve">
+    <value>Show Purchase History</value>
+  </data>
+  <data name="ShowShoppingCar" xml:space="preserve">
+    <value>Show Shopping Car</value>
+  </data>
 </root>
